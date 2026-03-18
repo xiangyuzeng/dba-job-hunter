@@ -15,8 +15,10 @@ _turso_client = None
 if config.TURSO_DATABASE_URL:
     try:
         import libsql_client
+        # libsql_client needs https:// not libsql://
+        _turso_url = config.TURSO_DATABASE_URL.replace("libsql://", "https://")
         _turso_client = libsql_client.create_client_sync(
-            url=config.TURSO_DATABASE_URL,
+            url=_turso_url,
             auth_token=config.TURSO_AUTH_TOKEN,
         )
         _use_turso = True

@@ -9,3 +9,4 @@ venv/
 local_replica.db
 .env
 .claude/
+.vercel

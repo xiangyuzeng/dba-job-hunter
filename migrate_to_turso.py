@@ -37,7 +37,8 @@ def main():
     rows = local.execute("SELECT * FROM jobs").fetchall()
     print(f"Found {len(rows)} jobs in local database.")
 
-    # Connect to Turso via HTTP client
+    # Connect to Turso via HTTP client (convert libsql:// to https://)
+    turso_url = turso_url.replace("libsql://", "https://")
     client = libsql_client.create_client_sync(url=turso_url, auth_token=turso_token)
 
     # Create tables
