@@ -8,7 +8,9 @@ DB_PATH = BASE_DIR / "jobs.db"
 # Turso / libsql settings (set env vars for cloud deployment)
 TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL", "")
 TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN", "")
-IS_SERVERLESS = bool(TURSO_DATABASE_URL)
+
+# Detect serverless environment (Vercel sets VERCEL=1)
+IS_SERVERLESS = bool(TURSO_DATABASE_URL) or bool(os.environ.get("VERCEL", ""))
 
 # Job search settings
 SEARCH_TERMS = [

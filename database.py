@@ -25,6 +25,13 @@ if config.TURSO_DATABASE_URL:
         logger.warning("libsql_client not installed, falling back to sqlite3")
 
 
+def _get_sqlite_path():
+    """Get writable SQLite path. On Vercel, use /tmp."""
+    if config.IS_SERVERLESS and not _use_turso:
+        return "/tmp/jobs.db"
+    return str(config.DB_PATH)
+
+
 @contextmanager
 def get_db():
     """Yield a connection-like object. For local SQLite, yields a real connection.
@@ -32,7 +39,7 @@ def get_db():
     if _use_turso:
         yield TursoConnection()
     else:
-        conn = sqlite3.connect(config.DB_PATH)
+        conn = sqlite3.connect(_get_sqlite_path())
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA journal_mode=WAL")
         try:

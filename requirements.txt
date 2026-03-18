@@ -1,7 +1,4 @@
-python-jobspy
 fastapi
-uvicorn[standard]
-apscheduler
 jinja2
 aiofiles
 libsql-client
