@@ -43,6 +43,16 @@ async function loadJobs(append = false) {
             jobs.length >= PAGE_SIZE ? "" : "none";
     } catch (err) {
         console.error("Failed to load jobs:", err);
+        const tbody = document.getElementById("jobs-body");
+        if (!append) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-danger">
+                        <i class="bi bi-exclamation-triangle fs-1 d-block mb-2"></i>
+                        Failed to load jobs. Please try refreshing the page.
+                    </td>
+                </tr>`;
+        }
     }
 }
 
